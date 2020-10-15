@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#e40475</color>
+    <color name="colorPrimaryDark">#ad0057</color>
+    <color name="colorAccent">#48e0e4</color>
+    <color name="colorBackground">#0e0220</color>
+    <color name="colorStroke">#2b0663</color>
+    <color name="colorHighlight">#d7fbf6</color>
+    <color name="colorButton">@android:color/transparent</color>
+    <color name="colorListItemBackground">@android:color/transparent</color>
+    <color name="colorText">#e6e6e6</color>
 </resources>
