@@ -19,16 +19,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imgraphy = new Imgraphy(new Imgraphy.Options(20, 0));
-        imgraphy.refreshList();
 
         graphyListView = (RecyclerView) findViewById(R.id.GraphyListView);
-        graphyListAdapter = new GraphyListAdapter(imgraphy);
+        graphyListAdapter = new GraphyListAdapter();
         graphyListLayoutManager = new LinearLayoutManager(this);
 
         graphyListView.setHasFixedSize(true);
         graphyListView.setAdapter(graphyListAdapter);
         graphyListView.setLayoutManager(graphyListLayoutManager);
 
+        imgraphy = new Imgraphy(new ImgraphyType.Options(50, 0));
+        imgraphy.refreshList(graphyListAdapter);
     }
 }

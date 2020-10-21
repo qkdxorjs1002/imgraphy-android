@@ -1,6 +1,7 @@
 package com.teamig.imgraphy;
 
 import android.media.Image;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.ViewHolder> {
-    private Imgraphy imgraphy;
+import com.bumptech.glide.Glide;
 
-    public GraphyListAdapter(Imgraphy imgraphy) {
-        this.imgraphy = imgraphy;
-    }
+import java.net.URI;
+import java.util.List;
+
+public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.ViewHolder> {
+
+    private List<ImgraphyType.Graphy> graphyList;
 
     @NonNull
     @Override
@@ -32,19 +35,21 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
         TextView listItemShareCount = (TextView) holder.view.findViewById(R.id.ListItemShareCount);
         TextView listItemFavCount = (TextView) holder.view.findViewById(R.id.ListItemFavCount);
 
-        Imgraphy.Graphy graphy = imgraphy.getList()[position];
+        ImgraphyType.Graphy graphy = graphyList.get(position);
 
+        Glide.with(holder.view).load("https://api.novang.tk/imgraphy/files/img/" + graphy.uuid + '/' + graphy.uuid).into(listItemImage);
         listItemShareCount.setText(String.valueOf(graphy.shrcnt));
         listItemFavCount.setText(String.valueOf(graphy.favcnt));
     }
 
     @Override
     public int getItemCount() {
-        if (imgraphy.getList() == null) {
+        if (graphyList== null) {
 
             return 0;
         }
-        return imgraphy.getList().length;
+
+        return graphyList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,5 +58,10 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
             super(v);
             view = v;
         }
+    }
+
+    public void updateList(List<ImgraphyType.Graphy> list) {
+        graphyList = list;
+        notifyDataSetChanged();
     }
 }
