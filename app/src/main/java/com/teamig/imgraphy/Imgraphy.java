@@ -7,32 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Imgraphy {
-    private Graphy[] graphyList;
-    private Options options;
 
-    public static class Graphy {
-        long date;
-        int favcnt, shrcnt, license;
-        boolean deprec;
-        String uuid, ext, tag, uploader;
-    }
-
-    public static class Options {
-        int count_per_page, page;
-        String keyword;
-
-        public Options(int count_per_page, int page) {
-            this.count_per_page = count_per_page;
-            this.page = page;
-            this.keyword = "";
-        }
-
-        public Options(int count_per_page, int page, String keyword) {
-            this.count_per_page = count_per_page;
-            this.page = page;
-            this.keyword = keyword;
-        }
-    }
 
     public Imgraphy() { }
 
