@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">imgraphy</string>
+    <string name="app_name">Imgraphy</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_graphy">Graphy</string>
+    <string name="title_viewer">Viewer</string>
+    <string name="title_upload">Upload</string>
+    <string name="title_account">Account</string>
+    <string name="license_att">Attribution (저작자 표시)</string>
+    <string name="license_ncc">Noncommercial (비영리)</string>
+    <string name="license_ndw">No Derivative Works (변경금지)</string>
+    <string name="license_sha">Share Alike (동일조건변경허락)</string>
 </resources>

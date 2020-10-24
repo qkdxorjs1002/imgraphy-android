@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.graphy.GraphyFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/GraphyListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/layout_list_item"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorButton"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/GraphyListRefresh"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/search_btn_bg"
+            android:foreground="@drawable/ic_find_replace" />
+
+        <EditText
+            android:id="@+id/GraphySearchInput"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="검색"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textAppearance="@style/Font.TextButton"
+            android:textColor="@color/colorText" />
+
+        <Button
+            android:id="@+id/GraphyClearInput"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/search_btn_bg"
+            android:foreground="@drawable/ic_clear" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
