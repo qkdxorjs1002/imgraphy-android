@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -17,8 +16,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.teamig.imgraphy.adapter.GraphyListAdapter;
 import com.teamig.imgraphy.service.ImgraphyType;
 import com.teamig.imgraphy.R;
-
-import java.util.List;
 
 public class GraphyFragment extends Fragment {
 
