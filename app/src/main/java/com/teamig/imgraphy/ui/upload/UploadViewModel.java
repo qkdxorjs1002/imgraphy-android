@@ -1,10 +1,5 @@
 package com.teamig.imgraphy.ui.upload;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,7 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.teamig.imgraphy.service.Imgraphy;
 import com.teamig.imgraphy.service.ImgraphyType;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 public class UploadViewModel extends ViewModel {
 
@@ -25,5 +21,24 @@ public class UploadViewModel extends ViewModel {
     public LiveData<ImgraphyType.Result> uploadFile(ImgraphyType.Options.Upload option) {
 
         return imgraphy.uploadGraphy(option);
+    }
+
+    public LiveData<byte[]> getByte(InputStream inputStream) {
+        MutableLiveData<byte[]> byteData = new MutableLiveData<>();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        try {
+            while(inputStream.available() != 0) {
+                bos.write(inputStream.read());
+            }
+            byteData.setValue(bos.toByteArray());
+
+            inputStream.close();
+            bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return byteData;
     }
 }
