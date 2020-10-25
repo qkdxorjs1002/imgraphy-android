@@ -71,6 +71,8 @@ public class ImgraphyType {
 
         public static class Upload {
 
+            public static final String UPLOAD_FILE = "uploadfile";
+
             public String tag, uploader;
             public int license;
             public MultipartBody.Part uploadfile;

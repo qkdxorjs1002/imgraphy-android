@@ -1,18 +1,14 @@
 package com.teamig.imgraphy.ui.upload;
 
-import android.content.ContentValues;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,16 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.teamig.imgraphy.MediaUriProvider;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.service.ImgraphyType;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -58,7 +51,7 @@ public class UploadFragment extends Fragment {
 
         uploadOption = new ImgraphyType.Options.Upload(null, 1, "user-test", null);
 
-        uploadFormUserID.setText(uploadOption.uploader);
+        uploadFormUserID.setText("user-test");
 
         uploadFormTag.setOnKeyListener((v, keyCode, event) -> {
             uploadOption.tag = uploadFormTag.getText().toString();
@@ -67,28 +60,29 @@ public class UploadFragment extends Fragment {
         });
 
         uploadFormLicense.setOnCheckedChangeListener((group, checkedId) -> {
+            int license = 1;
+
             switch (checkedId) {
                 case R.id.License2 :
-                    uploadOption.license = 2;
+                    license = 2;
                     break;
 
                 case R.id.License3 :
-                    uploadOption.license = 3;
+                    license = 3;
                     break;
 
                 case R.id.License4 :
-                    uploadOption.license = 4;
+                    license = 4;
                     break;
-
-                default :
-                    uploadOption.license = 1;
             }
+
+            uploadOption.license = license;
         });
 
         uploadFormButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+                    .setType("image/*")
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             startActivityForResult(Intent.createChooser(intent,"Select Image"), 1002);
         });
@@ -99,5 +93,31 @@ public class UploadFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1002 && resultCode == Activity.RESULT_OK && data != null) {
+            InputStream inputStream = null;
+
+            String type = root.getContext().getContentResolver().getType(data.getData());
+            String ext = MimeTypeMap.getSingleton().getExtensionFromMimeType(type);
+
+            try {
+                inputStream = root.getContext().getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            viewModel.getByte(inputStream).observe(getViewLifecycleOwner(), byteData -> {
+                RequestBody requestFile = RequestBody.create(MediaType.parse(type), byteData);
+                uploadOption.uploadfile = MultipartBody.Part.createFormData(
+                        ImgraphyType.Options.Upload.UPLOAD_FILE,
+                        String.format("%s.%s", uploadOption.uploader, ext),
+                        requestFile
+                );
+
+                viewModel.uploadFile(uploadOption).observe(getViewLifecycleOwner(), result -> {
+                    Toast.makeText(this.getContext(), result.code + ": " + result.log, Toast.LENGTH_LONG).show();
+                });
+            });
+        }
     }
 }
