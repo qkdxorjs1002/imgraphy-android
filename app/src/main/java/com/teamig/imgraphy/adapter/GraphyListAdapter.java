@@ -40,7 +40,7 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
         Glide.with(holder.view)
              .load("https://api.novang.tk/imgraphy/files/thumb/" + graphy.uuid)
              .diskCacheStrategy(DiskCacheStrategy.ALL)
-             .override(512)
+             .override(256)
              .into(listItemImage);
 
         listItemShareCount.setText(String.valueOf(graphy.shrcnt));
