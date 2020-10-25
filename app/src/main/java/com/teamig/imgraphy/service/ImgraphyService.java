@@ -19,13 +19,12 @@ public interface ImgraphyService {
                                                 @Query("page") int page,
                                                 @Query("keyword") String keyword);
 
-    @Headers({"Content-Type: application/json; charset=UTF-8"})
     @Multipart
     @POST("api/upload.php")
     Call<ImgraphyType.Result> uploadGraphy(@Part("tag") String tag,
                                            @Part("license") int license,
                                            @Part("uploader") String uploader,
-                                           @Part("uploadfile") MultipartBody.Part uploadfile);
+                                           @Part MultipartBody.Part uploadfile);
 
     @Headers({"Content-Type: application/json; charset=UTF-8"})
     @GET("api/idgen.php")
