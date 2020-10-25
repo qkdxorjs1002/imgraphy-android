@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.upload.UploadFragment">
+
+    <EditText
+        android:id="@+id/UploadFormTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="tags" />
+
+    <RadioGroup
+        android:id="@+id/UploadFormLicense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/License1"
+        app:layout_constraintTop_toBottomOf="@id/UploadFormTag">
+
+        <RadioButton
+            android:id="@+id/License1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/license_att"/>
+
+        <RadioButton
+            android:id="@+id/License2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/license_ncc"/>
+
+        <RadioButton
+            android:id="@+id/License3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/license_ndw"/>
+
+        <RadioButton
+            android:id="@+id/License4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/license_sha"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/UploadFormUserID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/UploadFormLicense" />
+
+    <Button
+        android:id="@+id/UploadFormButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        app:layout_constraintTop_toBottomOf="@id/UploadFormUserID" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

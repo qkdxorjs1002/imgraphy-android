@@ -1,53 +1,31 @@
 package com.teamig.imgraphy;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button graphyListRefresh;
-    private EditText graphySearchInput;
-    private Button graphyClearInput;
-
-    private RecyclerView graphyListView;
-    private GraphyListAdapter graphyListAdapter;
-    private LinearLayoutManager graphyListLayoutManager;
-
-    private Imgraphy imgraphy;
+    BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        graphyListRefresh = (Button) findViewById(R.id.GraphyListRefresh);
-        graphySearchInput = (EditText) findViewById(R.id.GraphySearchInput);
-        graphyClearInput = (Button) findViewById(R.id.GraphyClearInput);
+        navView = (BottomNavigationView) findViewById(R.id.nav_view);
 
-        graphyListView = (RecyclerView) findViewById(R.id.GraphyListView);
-        graphyListAdapter = new GraphyListAdapter();
-        graphyListLayoutManager = new LinearLayoutManager(this);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_graphy, R.id.navigation_upload, R.id.navigation_account
+        ).build();
 
-        graphyListView.setHasFixedSize(true);
-        graphyListView.setAdapter(graphyListAdapter);
-        graphyListView.setLayoutManager(graphyListLayoutManager);
-
-        graphyListRefresh.setOnClickListener(v -> {
-            imgraphy.setOptions(new ImgraphyType.Options(50, 0, graphySearchInput.getText().toString()));
-            imgraphy.refreshList(graphyListAdapter);
-        });
-
-        graphyClearInput.setOnClickListener(v -> {
-            graphySearchInput.setText("");
-        });
-
-        imgraphy = new Imgraphy(new ImgraphyType.Options(50, 0));
-        imgraphy.refreshList(graphyListAdapter);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 }

@@ -1,7 +1,5 @@
-package com.teamig.imgraphy;
+package com.teamig.imgraphy.adapter;
 
-import android.media.Image;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.teamig.imgraphy.R;
+import com.teamig.imgraphy.service.ImgraphyType;
 
-import java.net.URI;
 import java.util.List;
 
 public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.ViewHolder> {
@@ -37,7 +37,12 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
 
         ImgraphyType.Graphy graphy = graphyList.get(position);
 
-        Glide.with(holder.view).load("https://api.novang.tk/imgraphy/files/img/" + graphy.uuid + '/' + graphy.uuid).into(listItemImage);
+        Glide.with(holder.view)
+             .load("https://api.novang.tk/imgraphy/files/thumb/" + graphy.uuid)
+             .diskCacheStrategy(DiskCacheStrategy.ALL)
+             .override(256)
+             .into(listItemImage);
+
         listItemShareCount.setText(String.valueOf(graphy.shrcnt));
         listItemFavCount.setText(String.valueOf(graphy.favcnt));
     }
