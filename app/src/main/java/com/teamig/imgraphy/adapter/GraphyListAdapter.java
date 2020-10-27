@@ -30,7 +30,7 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
     @Override
     public GraphyListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = (View) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_list_item, parent, false);
+                .inflate(R.layout.layout_graphy_list_item, parent, false);
 
         return new ViewHolder(v);
     }
