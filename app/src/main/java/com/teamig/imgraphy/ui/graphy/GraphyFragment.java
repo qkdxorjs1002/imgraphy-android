@@ -31,6 +31,7 @@ import java.util.List;
 public class GraphyFragment extends Fragment {
 
     private GraphyViewModel viewModel;
+    private View root;
 
     private Button graphyListRefresh;
     private EditText graphySearchInput;
@@ -48,8 +49,7 @@ public class GraphyFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(GraphyViewModel.class);
-
-        View root = inflater.inflate(R.layout.fragment_graphy, container, false);
+        root = inflater.inflate(R.layout.fragment_graphy, container, false);
 
         graphyListRefresh = (Button) root.findViewById(R.id.GraphyListRefresh);
         graphySearchInput = (EditText) root.findViewById(R.id.GraphySearchInput);
