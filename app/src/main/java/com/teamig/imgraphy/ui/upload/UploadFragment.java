@@ -1,38 +1,38 @@
 package com.teamig.imgraphy.ui.upload;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.teamig.imgraphy.R;
-import com.teamig.imgraphy.service.ImgraphyType;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+import com.teamig.imgraphy.ui.graphy.GraphyFragmentArgs;
 
 public class UploadFragment extends Fragment {
 
     private UploadViewModel viewModel;
     private View root;
+    private NavController navController;
+    private ActivityResultLauncher<String> getContentActivityLauncher;
 
+    private ImageView uploadPreview;
+    private Button uploadSelectImage;
     private EditText uploadFormTag;
     private RadioGroup uploadFormLicense;
     private TextView uploadFormUserID;
@@ -41,67 +41,68 @@ public class UploadFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(UploadViewModel.class);
         root = inflater.inflate(R.layout.fragment_upload, container, false);
+        navController = Navigation.findNavController(container);
+        getContentActivityLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), this::getContentResult);
 
-        uploadFormTag = (EditText) root.findViewById(R.id.UploadFormTag);
-        uploadFormLicense = (RadioGroup) root.findViewById(R.id.UploadFormLicense);
-        uploadFormUserID = (TextView) root.findViewById(R.id.UploadFormUserID);
-        uploadFormButton = (Button) root.findViewById(R.id.UploadFormButton);
-
-        uploadFormUserID.setText("user-test");
-
-        uploadFormButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-                    .setType("image/*")
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            startActivityForResult(Intent.createChooser(intent,"Select Image"), 1002);
-        });
+        initReferences();
+        initObservers();
+        initEvents();
 
         return root;
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        if (requestCode == 1002 && resultCode == Activity.RESULT_OK && data != null) {
-            InputStream inputStream = null;
+        String userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
+        viewModel.userID.setValue(userID);
+        uploadFormUserID.setText(userID);
+    }
 
-            String type = root.getContext().getContentResolver().getType(data.getData());
-            String ext = MimeTypeMap.getSingleton().getExtensionFromMimeType(type);
+    private void initReferences() {
+        uploadPreview = (ImageView) root.findViewById(R.id.UploadPreview);
+        uploadSelectImage = (Button) root.findViewById(R.id.UploadSelectImage);
+        uploadFormTag = (EditText) root.findViewById(R.id.UploadFormTag);
+        uploadFormLicense = (RadioGroup) root.findViewById(R.id.UploadFormLicense);
+        uploadFormUserID = (TextView) root.findViewById(R.id.UploadFormUserID);
+        uploadFormButton = (Button) root.findViewById(R.id.UploadFormButton);
+        uploadFormButton.setVisibility(View.GONE);
+    }
 
-            try {
-                inputStream = root.getContext().getContentResolver().openInputStream(data.getData());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+    private void initObservers() {
+        viewModel.fileUri.observe(getViewLifecycleOwner(), uri -> {
+            viewModel.getByte(uri);
+        });
 
-            viewModel.getByte(inputStream).observe(getViewLifecycleOwner(), byteData -> {
-                RequestBody tags = RequestBody.create(
-                        MediaType.parse("multipart/form-data"), uploadFormTag.getText().toString());
-                RequestBody license = RequestBody.create(MediaType.parse("multipart/form-data"),
-                        String.valueOf(uploadFormLicense.indexOfChild(root.findViewById(uploadFormLicense.getCheckedRadioButtonId())) + 1));
-                RequestBody uploader = RequestBody.create(MediaType.parse("multipart/form-data"),
-                        uploadFormUserID.getText().toString());
+        viewModel.fileByteData.observe(getViewLifecycleOwner(), bytes -> {
+            uploadSelectImage.setText("이미지 선택");
+            uploadSelectImage.setEnabled(true);
+            uploadFormButton.setVisibility(View.VISIBLE);
+        });
+    }
 
-                RequestBody requestBody = RequestBody.create(MediaType.parse(type), byteData);
-                MultipartBody.Part requestFile = MultipartBody.Part.createFormData(
-                        ImgraphyType.Options.Upload.UPLOAD_FILE,
-                        String.format("%s.%s", uploader, ext),
-                        requestBody
-                );
+    private void initEvents() {
+        uploadSelectImage.setOnClickListener(v -> {
+            getContentActivityLauncher.launch("image/*");
+        });
 
-                ImgraphyType.Options.Upload option = new ImgraphyType.Options.Upload(
-                        tags,
-                        license,
-                        uploader,
-                        requestFile
-                );
+        uploadFormButton.setOnClickListener(v -> {
+            viewModel.uploadFile(uploadFormTag.getText().toString(),
+                    uploadFormLicense.indexOfChild(root.findViewById(uploadFormLicense.getCheckedRadioButtonId())) + 1)
+                    .observe(getViewLifecycleOwner(), result -> {
+                        Toast.makeText(this.getContext(), result.code + ": " + result.log, Toast.LENGTH_LONG).show();
+                        if (result.code.equals("success")) {
+                            navController.navigate(UploadFragmentDirections.actionGlobalNavigationUpload(uploadFormUserID.getText().toString()));
+                        }
+                    });
+        });
+    }
 
-                viewModel.uploadFile(option).observe(getViewLifecycleOwner(), result -> {
-                    Toast.makeText(this.getContext(), result.code + ": " + result.log, Toast.LENGTH_LONG).show();
-                });
-            });
-        }
+    private void getContentResult(Uri result) {
+        uploadSelectImage.setText("파일 처리 중...");
+        uploadSelectImage.setEnabled(false);
+        uploadPreview.setImageURI(result);
+        viewModel.fileUri.postValue(result);
     }
 }
