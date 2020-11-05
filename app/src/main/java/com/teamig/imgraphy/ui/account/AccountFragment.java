@@ -23,6 +23,8 @@ import com.teamig.imgraphy.ui.viewer.ViewerFragmentDirections;
 
 public class AccountFragment extends Fragment {
 
+    private String userID;
+
     private AccountViewModel viewModel;
     private View root;
     private NavController navController;
@@ -44,6 +46,12 @@ public class AccountFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
+        imgraphyUserId.setText(userID);
 
         viewModel.getGraphy(new ImgraphyType.Options.List(50, 0, userID))
                 .observe(getViewLifecycleOwner(), graphy -> {

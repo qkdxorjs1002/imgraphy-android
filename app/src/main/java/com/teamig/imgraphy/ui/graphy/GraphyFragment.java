@@ -19,6 +19,8 @@ import com.teamig.imgraphy.ui.viewer.ViewerFragmentDirections;
 
 public class GraphyFragment extends Fragment {
 
+    private String userID;
+
     private GraphyViewModel viewModel;
     private View root;
     private NavController navController;
@@ -36,11 +38,10 @@ public class GraphyFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_graphy, container, false);
         navController = Navigation.findNavController(container);
 
+        userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
         graphyListRefresh = (Button) root.findViewById(R.id.GraphyListRefresh);
         graphySearchInput = (EditText) root.findViewById(R.id.GraphySearchInput);
         graphyClearInput = (Button) root.findViewById(R.id.GraphyClearInput);
-        graphyViewContainer = (ScrollView) root.findViewById(R.id.GraphyViewContainer);
-        graphyViewImage = (ImageView) root.findViewById(R.id.GraphyViewImage);
 
         graphyListView = (RecyclerView) root.findViewById(R.id.GraphyListView);
         graphyListAdapter = new GraphyListAdapter();
