@@ -3,16 +3,12 @@ package com.teamig.imgraphy.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.teamig.imgraphy.R;
-import com.teamig.imgraphy.service.ImgraphyType;
 
 import java.util.List;
 
