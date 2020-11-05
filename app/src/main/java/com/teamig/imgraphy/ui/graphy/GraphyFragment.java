@@ -8,8 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.teamig.imgraphy.adapter.GraphyListAdapter;
@@ -38,7 +41,22 @@ public class GraphyFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_graphy, container, false);
         navController = Navigation.findNavController(container);
 
+        initReferences();
+        initEvents();
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
+
+        refreshList(new ImgraphyType.Options.List(50, 0, null));
+    }
+
+    private void initReferences() {
         graphyListRefresh = (Button) root.findViewById(R.id.GraphyListRefresh);
         graphySearchInput = (EditText) root.findViewById(R.id.GraphySearchInput);
         graphyClearInput = (Button) root.findViewById(R.id.GraphyClearInput);
@@ -50,6 +68,7 @@ public class GraphyFragment extends Fragment {
         graphyListView.setHasFixedSize(true);
         graphyListView.setAdapter(graphyListAdapter);
         graphyListView.setLayoutManager(graphyListLayoutManager);
+    }
 
     private void initEvents() {
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
@@ -60,21 +79,16 @@ public class GraphyFragment extends Fragment {
             refreshList(new ImgraphyType.Options.List(50, 0, graphySearchInput.getText().toString()));
         });
 
-        refreshList(new ImgraphyType.Options.List(50, 0, graphySearchInput.getText().toString()));
-
         graphyClearInput.setOnClickListener(v -> {
             graphySearchInput.setText("");
         });
-
-        return root;
     }
 
     private void refreshList(ImgraphyType.Options.List option) {
-        viewModel.getGraphy(option)
-                .observe(getViewLifecycleOwner(), graphy -> {
-                    graphyListAdapter.updateList(graphy);
-                    graphyListAdapter.notifyDataSetChanged();
-                    graphyListView.scrollToPosition(0);
-                });
+        viewModel.getGraphy(option).observe(getViewLifecycleOwner(), graphy -> {
+            graphyListAdapter.updateList(graphy);
+            graphyListAdapter.notifyDataSetChanged();
+            graphyListView.scrollToPosition(0);
+        });
     }
 }
