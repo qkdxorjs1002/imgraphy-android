@@ -8,11 +8,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.bumptech.glide.util.ByteBufferUtil;
 import com.teamig.imgraphy.service.Imgraphy;
 import com.teamig.imgraphy.service.ImgraphyType;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -64,22 +65,20 @@ public class UploadViewModel extends AndroidViewModel {
         return imgraphy.uploadGraphy(option);
     }
 
-    public void getByte(Uri result) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        String type = application.getContentResolver().getType(result);
+    public void fileToByteArray(Uri uri) {
+        String type = application.getContentResolver().getType(uri);
 
         try {
-            InputStream inputStream = application.getContentResolver().openInputStream(result);
+            InputStream inputStream = application.getContentResolver().openInputStream(uri);
+            ByteBuffer byteBuffer = ByteBufferUtil.fromStream(inputStream);
 
-            while (inputStream.available() != 0) {
-                bos.write(inputStream.read());
-            }
-            fileByteData.postValue(bos.toByteArray());
-            fileType.postValue(type);
+            byte[] bytesArray = new byte[byteBuffer.remaining()];
+            byteBuffer.get(bytesArray, 0, bytesArray.length);
 
             inputStream.close();
-            bos.close();
 
+            fileByteData.postValue(bytesArray);
+            fileType.postValue(type);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -75,7 +75,7 @@ public class UploadFragment extends Fragment {
 
     private void initObservers() {
         viewModel.fileUri.observe(getViewLifecycleOwner(), uri -> {
-            viewModel.getByte(uri);
+            viewModel.fileToByteArray(uri);
         });
 
         viewModel.fileByteData.observe(getViewLifecycleOwner(), bytes -> {
