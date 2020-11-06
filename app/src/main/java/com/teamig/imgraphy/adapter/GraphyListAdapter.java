@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.service.ImgraphyType;
 
@@ -46,7 +47,7 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
         Glide.with(holder.view)
              .load("https://api.novang.tk/imgraphy/files/thumb/" + graphy.uuid)
              .diskCacheStrategy(DiskCacheStrategy.ALL)
-             .override(512)
+             .override(Target.SIZE_ORIGINAL)
              .into(listItemImage);
 
         listItemShareCount.setText(String.valueOf(graphy.shrcnt));
