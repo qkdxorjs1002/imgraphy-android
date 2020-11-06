@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.ui.graphy.GraphyFragmentArgs;
 
@@ -76,8 +79,12 @@ public class UploadFragment extends Fragment {
         });
 
         viewModel.fileByteData.observe(getViewLifecycleOwner(), bytes -> {
-            uploadSelectImage.setText("이미지 선택");
-            uploadSelectImage.setEnabled(true);
+            Glide.with(root)
+                    .load(bytes)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(Target.SIZE_ORIGINAL)
+                    .into(uploadPreview);
+
             uploadFormButton.setVisibility(View.VISIBLE);
         });
     }
@@ -100,9 +107,8 @@ public class UploadFragment extends Fragment {
     }
 
     private void getContentResult(Uri result) {
-        uploadSelectImage.setText("파일 처리 중...");
-        uploadSelectImage.setEnabled(false);
-        uploadPreview.setImageURI(result);
-        viewModel.fileUri.postValue(result);
+        if (result != null) {
+            viewModel.fileUri.postValue(result);
+        }
     }
 }
