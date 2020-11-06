@@ -6,71 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".ui.upload.UploadFragment">
 
-    <ImageView
-        android:id="@+id/UploadPreview"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="500dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/UploadSelectImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="이미지 선택"
-        app:layout_constraintTop_toBottomOf="@id/UploadPreview" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/UploadFormTag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="tags"
-        app:layout_constraintTop_toBottomOf="@id/UploadSelectImage" />
+            <ImageView
+                android:id="@+id/UploadPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/UploadFormLicense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checkedButton="@id/License1"
-        app:layout_constraintTop_toBottomOf="@id/UploadFormTag">
+            <Button
+                android:id="@+id/UploadSelectImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이미지 선택"
+                app:layout_constraintTop_toBottomOf="@id/UploadPreview" />
 
-        <RadioButton
-            android:id="@+id/License1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/license_att" />
+            <EditText
+                android:id="@+id/UploadFormTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="tags"
+                app:layout_constraintTop_toBottomOf="@id/UploadSelectImage" />
 
-        <RadioButton
-            android:id="@+id/License2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/license_ncc" />
+            <RadioGroup
+                android:id="@+id/UploadFormLicense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/License1"
+                app:layout_constraintTop_toBottomOf="@id/UploadFormTag">
 
-        <RadioButton
-            android:id="@+id/License3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/license_ndw" />
+                <RadioButton
+                    android:id="@+id/License1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/license_att" />
 
-        <RadioButton
-            android:id="@+id/License4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/license_sha" />
+                <RadioButton
+                    android:id="@+id/License2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/license_ncc" />
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/License3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/license_ndw" />
 
-    <TextView
-        android:id="@+id/UploadFormUserID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/UploadFormLicense" />
+                <RadioButton
+                    android:id="@+id/License4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/license_sha" />
 
-    <Button
-        android:id="@+id/UploadFormButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        app:layout_constraintTop_toBottomOf="@id/UploadFormUserID" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/UploadFormUserID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/UploadFormLicense" />
+
+            <Button
+                android:id="@+id/UploadFormButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                app:layout_constraintTop_toBottomOf="@id/UploadFormUserID" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
