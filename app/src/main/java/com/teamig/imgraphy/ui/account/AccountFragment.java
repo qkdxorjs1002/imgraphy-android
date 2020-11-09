@@ -50,7 +50,7 @@ public class AccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
+        userID = AccountFragmentArgs.fromBundle(getArguments()).getUserID();
         imgraphyUserId.setText(userID);
 
         viewModel.getGraphy(new ImgraphyType.Options.List(50, 0, userID))
@@ -75,7 +75,7 @@ public class AccountFragment extends Fragment {
 
     private void initEvents() {
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
-            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(userID, graphy.uuid, graphy.tag));
+            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(userID, new ImgraphyType.ParcelableGraphy(graphy)));
         });
     }
 }

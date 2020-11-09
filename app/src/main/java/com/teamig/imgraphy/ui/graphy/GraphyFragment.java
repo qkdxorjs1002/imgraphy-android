@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,9 +28,9 @@ public class GraphyFragment extends Fragment {
     private View root;
     private NavController navController;
 
-    private Button graphyListRefresh;
+    private ImageButton graphyListRefresh;
     private EditText graphySearchInput;
-    private Button graphyClearInput;
+    private ImageButton graphyClearInput;
 
     private RecyclerView graphyListView;
     private GraphyListAdapter graphyListAdapter;
@@ -72,7 +72,7 @@ public class GraphyFragment extends Fragment {
 
     private void initEvents() {
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
-            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(userID, graphy.uuid, graphy.tag));
+            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(viewModel.userID.getValue(), new ImgraphyType.ParcelableGraphy(graphy)));
         });
 
         graphyListRefresh.setOnClickListener(v -> {

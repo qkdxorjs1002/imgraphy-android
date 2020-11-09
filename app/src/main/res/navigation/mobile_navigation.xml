@@ -27,11 +27,9 @@
             app:argType="string"
             app:nullable="false"/>
 
-        <argument android:name="uuid"
-            app:argType="string" />
-
-        <argument android:name="tags"
-            app:argType="string" />
+        <argument
+            android:name="parcelableGraphy"
+            app:argType="com.teamig.imgraphy.service.ImgraphyType$ParcelableGraphy" />
 
     </fragment>
 
