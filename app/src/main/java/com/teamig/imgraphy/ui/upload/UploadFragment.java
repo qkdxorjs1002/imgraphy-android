@@ -25,7 +25,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
-import com.teamig.imgraphy.ui.graphy.GraphyFragmentArgs;
 
 public class UploadFragment extends Fragment {
 
@@ -38,14 +37,12 @@ public class UploadFragment extends Fragment {
     private Button uploadSelectImage;
     private EditText uploadFormTag;
     private RadioGroup uploadFormLicense;
-    private TextView uploadFormUserID;
     private Button uploadFormButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(UploadViewModel.class);
         root = inflater.inflate(R.layout.fragment_upload, container, false);
         navController = Navigation.findNavController(container);
-        getContentActivityLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), this::getContentResult);
 
         initReferences();
         initObservers();
@@ -58,17 +55,15 @@ public class UploadFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
-        viewModel.userID.setValue(userID);
-        uploadFormUserID.setText(userID);
+        viewModel.userID.postValue(UploadFragmentArgs.fromBundle(getArguments()).getUserID());
     }
 
     private void initReferences() {
+        getContentActivityLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), this::getContentResult);
         uploadPreview = (ImageView) root.findViewById(R.id.UploadPreview);
         uploadSelectImage = (Button) root.findViewById(R.id.UploadSelectImage);
         uploadFormTag = (EditText) root.findViewById(R.id.UploadFormTag);
         uploadFormLicense = (RadioGroup) root.findViewById(R.id.UploadFormLicense);
-        uploadFormUserID = (TextView) root.findViewById(R.id.UploadFormUserID);
         uploadFormButton = (Button) root.findViewById(R.id.UploadFormButton);
         uploadFormButton.setVisibility(View.GONE);
     }
@@ -81,6 +76,7 @@ public class UploadFragment extends Fragment {
         viewModel.fileByteData.observe(getViewLifecycleOwner(), bytes -> {
             Glide.with(root)
                     .load(bytes)
+                    .placeholder(R.drawable.ic_image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(Target.SIZE_ORIGINAL)
                     .into(uploadPreview);
@@ -95,12 +91,13 @@ public class UploadFragment extends Fragment {
         });
 
         uploadFormButton.setOnClickListener(v -> {
-            viewModel.uploadFile(uploadFormTag.getText().toString(),
-                    uploadFormLicense.indexOfChild(root.findViewById(uploadFormLicense.getCheckedRadioButtonId())) + 1)
+            int indexOfRadio = uploadFormLicense.indexOfChild(root.findViewById(uploadFormLicense.getCheckedRadioButtonId()));
+
+            viewModel.uploadFile(uploadFormTag.getText().toString(), indexOfRadio)
                     .observe(getViewLifecycleOwner(), result -> {
                         Toast.makeText(this.getContext(), result.code + ": " + result.log, Toast.LENGTH_LONG).show();
                         if (result.code.equals("success")) {
-                            navController.navigate(UploadFragmentDirections.actionGlobalNavigationUpload(uploadFormUserID.getText().toString()));
+                            navController.navigate(UploadFragmentDirections.actionGlobalNavigationUpload(viewModel.userID.getValue()));
                         }
                     });
         });
