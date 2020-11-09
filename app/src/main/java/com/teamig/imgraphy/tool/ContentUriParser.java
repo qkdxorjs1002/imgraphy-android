@@ -3,13 +3,8 @@ package com.teamig.imgraphy.tool;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-
-import java.io.FileDescriptor;
 
 public class ContentUriParser {
 
