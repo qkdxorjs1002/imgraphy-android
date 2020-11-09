@@ -8,78 +8,120 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        style="@style/ListFadingEdge"
+        android:requiresFadingEdge="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/UploadPreview"
+            <soup.neumorphism.NeumorphCardView
+                android:id="@+id/UploadPreviewContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                app:layout_constraintTop_toTopOf="parent" />
+                style="@style/Neumorphism.CardView"
+                app:neumorph_strokeColor="@color/neumorphism.Background"
+                app:neumorph_strokeWidth="@dimen/neumorphism_stroke"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+                <ImageView
+                    android:id="@+id/UploadPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_image"
+                    android:adjustViewBounds="true"/>
+
+            </soup.neumorphism.NeumorphCardView>
+
+            <soup.neumorphism.NeumorphButton
                 android:id="@+id/UploadSelectImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="이미지 선택"
-                app:layout_constraintTop_toBottomOf="@id/UploadPreview" />
+                android:text="@string/ui_select_image"
+                android:textAppearance="@style/Font.TextButton"
+                android:textColor="@color/neumorphism.Accent"
+                style="@style/Neumorphism.Button"
+                app:layout_constraintTop_toBottomOf="@id/UploadPreviewContainer" />
 
-            <EditText
-                android:id="@+id/UploadFormTag"
+            <soup.neumorphism.NeumorphCardView
+                android:id="@+id/UploadFormTagContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="tags"
-                app:layout_constraintTop_toBottomOf="@id/UploadSelectImage" />
+                style="@style/Neumorphism.CardView"
+                app:layout_constraintTop_toBottomOf="@id/UploadSelectImage">
 
-            <RadioGroup
-                android:id="@+id/UploadFormLicense"
+                <EditText
+                    android:id="@+id/UploadFormTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/neumorphism_padding"
+                    android:background="@null"
+                    android:hint="@string/ui_input_tags"
+                    android:inputType="text"
+                    android:textAppearance="@style/Font.TextButton"
+                    android:textColor="@color/neumorphism.Text"
+                    android:textColorHint="@color/neumorphism.Stroke"/>
+
+            </soup.neumorphism.NeumorphCardView>
+
+            <soup.neumorphism.NeumorphCardView
+                android:id="@+id/UploadFormLicenseContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@id/License1"
-                app:layout_constraintTop_toBottomOf="@id/UploadFormTag">
+                style="@style/Neumorphism.CardView"
+                app:layout_constraintTop_toBottomOf="@id/UploadFormTagContainer">
 
-                <RadioButton
-                    android:id="@+id/License1"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/UploadFormLicense"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/license_att" />
+                    android:padding="@dimen/neumorphism_padding"
+                    android:checkedButton="@id/License0">
 
-                <RadioButton
-                    android:id="@+id/License2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/license_ncc" />
+                    <RadioButton
+                        android:id="@+id/License0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/license_non" />
 
-                <RadioButton
-                    android:id="@+id/License3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/license_ndw" />
+                    <RadioButton
+                        android:id="@+id/License1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/license_att" />
 
-                <RadioButton
-                    android:id="@+id/License4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/license_sha" />
+                    <RadioButton
+                        android:id="@+id/License2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/license_ncc" />
 
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/License3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/license_ndw" />
 
-            <TextView
-                android:id="@+id/UploadFormUserID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/UploadFormLicense" />
+                    <RadioButton
+                        android:id="@+id/License4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/license_sha" />
 
-            <Button
+                </RadioGroup>
+            </soup.neumorphism.NeumorphCardView>
+
+            <soup.neumorphism.NeumorphButton
                 android:id="@+id/UploadFormButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                app:layout_constraintTop_toBottomOf="@id/UploadFormUserID" />
+                android:textAppearance="@style/Font.TextButton"
+                android:textColor="@color/neumorphism.Text"
+                style="@style/Neumorphism.Button"
+                app:neumorph_backgroundColor="@color/neumorphism.Accent"
+                app:layout_constraintTop_toBottomOf="@id/UploadFormLicenseContainer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
