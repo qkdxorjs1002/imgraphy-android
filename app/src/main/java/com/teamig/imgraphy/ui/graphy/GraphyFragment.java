@@ -22,8 +22,6 @@ import com.teamig.imgraphy.ui.viewer.ViewerFragmentDirections;
 
 public class GraphyFragment extends Fragment {
 
-    private String userID;
-
     private GraphyViewModel viewModel;
     private View root;
     private NavController navController;
@@ -42,6 +40,7 @@ public class GraphyFragment extends Fragment {
         navController = Navigation.findNavController(container);
 
         initReferences();
+        initObservers();
         initEvents();
 
         return root;
@@ -51,23 +50,30 @@ public class GraphyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userID = GraphyFragmentArgs.fromBundle(getArguments()).getUserID();
-
-        refreshList(new ImgraphyType.Options.List(50, 0, null));
+        viewModel.userID.postValue(GraphyFragmentArgs.fromBundle(getArguments()).getUserID());
+        viewModel.keyword.postValue(GraphyFragmentArgs.fromBundle(getArguments()).getKeyword());
     }
 
     private void initReferences() {
-        graphyListRefresh = (Button) root.findViewById(R.id.GraphyListRefresh);
+        graphyListRefresh = (ImageButton) root.findViewById(R.id.GraphyListRefresh);
         graphySearchInput = (EditText) root.findViewById(R.id.GraphySearchInput);
-        graphyClearInput = (Button) root.findViewById(R.id.GraphyClearInput);
+        graphyClearInput = (ImageButton) root.findViewById(R.id.GraphyClearInput);
 
         graphyListView = (RecyclerView) root.findViewById(R.id.GraphyListView);
         graphyListAdapter = new GraphyListAdapter();
         graphyListLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        graphyListLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
 
         graphyListView.setHasFixedSize(true);
         graphyListView.setAdapter(graphyListAdapter);
         graphyListView.setLayoutManager(graphyListLayoutManager);
+    }
+
+    private void initObservers() {
+        viewModel.keyword.observe(getViewLifecycleOwner(), s -> {
+            graphySearchInput.setText(s);
+            refreshList(new ImgraphyType.Options.List(50, 0, s));
+        });
     }
 
     private void initEvents() {

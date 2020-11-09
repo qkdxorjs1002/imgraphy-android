@@ -14,6 +14,10 @@
         <argument android:name="userID"
             app:argType="string"
             app:nullable="false"/>
+        <argument
+            android:name="keyword"
+            app:argType="string"
+            app:nullable="true" />
 
     </fragment>
 

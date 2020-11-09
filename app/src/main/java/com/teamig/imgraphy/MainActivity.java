@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == id.navigation_graphy) {
-                navController.navigate(GraphyFragmentDirections.actionGlobalNavigationGraphy(userID));
+                navController.navigate(GraphyFragmentDirections.actionGlobalNavigationGraphy(userID, null));
             } else if (itemId == id.navigation_upload) {
                 navController.navigate(UploadFragmentDirections.actionGlobalNavigationUpload(userID));
             } else if (itemId == id.navigation_account) {
@@ -45,6 +45,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        navController.navigate(GraphyFragmentDirections.actionGlobalNavigationGraphy(userID));
+        navController.navigate(GraphyFragmentDirections.actionGlobalNavigationGraphy(userID, null));
     }
 }
