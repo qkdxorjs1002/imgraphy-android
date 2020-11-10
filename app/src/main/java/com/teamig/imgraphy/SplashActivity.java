@@ -16,6 +16,7 @@ import com.teamig.imgraphy.service.Imgraphy;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private String userID;
     private Imgraphy imgraphy;
 
     private Button splashInitButton;
@@ -34,10 +35,10 @@ public class SplashActivity extends AppCompatActivity {
     private void initReferences() {
         splashInitButton = (Button) findViewById(R.id.SplashInitButton);
         splashAcceptButton = (Button) findViewById(R.id.SplashAcceptButton);
-        splashPolicyContainer = (ConstraintLayout) findViewById(R.id.SplashPolicyContainer) ;
+        splashPolicyContainer = (ConstraintLayout) findViewById(R.id.SplashPolicyContainer);
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
-        final String userID = sharedPreferences.getString("userID", null);
+        userID = sharedPreferences.getString("userID", null);
 
         if (userID != null) {
             exitSplash();
@@ -66,6 +67,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void exitSplash() {
         Intent intent = new Intent(this, MainActivity.class);
+
+        intent.putExtra("userID", userID);
         startActivity(intent);
 
         finish();
