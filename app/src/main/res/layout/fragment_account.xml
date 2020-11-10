@@ -30,7 +30,6 @@
         android:id="@+id/GraphyListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:itemCount="20"
         style="@style/ListFadingEdge"
         app:layout_constraintTop_toBottomOf="@id/ImgraphyUserIdContainer"
         app:layout_constraintBottom_toBottomOf="parent"

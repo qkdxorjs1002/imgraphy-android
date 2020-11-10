@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.service.ImgraphyType;
@@ -46,14 +44,10 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
 
         ImgraphyType.Graphy graphy = graphyList.get(position);
 
-
-        /* TODO: Neumorphism Library Bug */
-        // Temporary Work
-        // Soup's Neumorphism Library has performance issue with recycle view
         Glide.with(holder.view)
                 .load("https://api.novang.tk/imgraphy/files/thumb/" + graphy.uuid)
-                .transform(new GranularRoundedCorners(22, 22, 0, 0))
                 .placeholder(R.drawable.ic_image)
+                .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(Target.SIZE_ORIGINAL)
                 .into(listItemImage);
