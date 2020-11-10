@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -47,8 +46,8 @@ public class GraphyFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         viewModel.userID.postValue(GraphyFragmentArgs.fromBundle(getArguments()).getUserID());
         viewModel.keyword.postValue(GraphyFragmentArgs.fromBundle(getArguments()).getKeyword());

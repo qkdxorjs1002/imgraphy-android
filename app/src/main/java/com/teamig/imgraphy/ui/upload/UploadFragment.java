@@ -52,8 +52,8 @@ public class UploadFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         viewModel.userID.postValue(UploadFragmentArgs.fromBundle(getArguments()).getUserID());
     }

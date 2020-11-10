@@ -18,12 +18,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.adapter.GraphyListAdapter;
 import com.teamig.imgraphy.service.ImgraphyType;
-import com.teamig.imgraphy.ui.graphy.GraphyFragmentArgs;
 import com.teamig.imgraphy.ui.viewer.ViewerFragmentDirections;
 
 public class AccountFragment extends Fragment {
 
-    private String userID;
 
     private AccountViewModel viewModel;
     private View root;
@@ -41,24 +39,17 @@ public class AccountFragment extends Fragment {
         navController = Navigation.findNavController(container);
 
         initReferences();
+        initObservers();
         initEvents();
 
         return root;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
-        userID = AccountFragmentArgs.fromBundle(getArguments()).getUserID();
-        imgraphyUserId.setText(userID);
-
-        viewModel.getGraphy(new ImgraphyType.Options.List(50, 0, userID))
-                .observe(getViewLifecycleOwner(), graphy -> {
-                    graphyListAdapter.updateList(graphy);
-                    graphyListAdapter.notifyDataSetChanged();
-                    graphyListView.scrollToPosition(0);
-                });
+        viewModel.userID.postValue(AccountFragmentArgs.fromBundle(getArguments()).getUserID());
     }
 
     private void initReferences() {
@@ -73,9 +64,22 @@ public class AccountFragment extends Fragment {
         imgraphyUserId = (TextView) root.findViewById(R.id.ImgraphyUserId);
     }
 
+    private void initObservers() {
+        viewModel.userID.observe(getViewLifecycleOwner(), s -> {
+            imgraphyUserId.setText(s);
+
+            viewModel.getGraphy(new ImgraphyType.Options.List(50, 0, s))
+                    .observe(getViewLifecycleOwner(), graphy -> {
+                        graphyListAdapter.updateList(graphy);
+                        graphyListAdapter.notifyDataSetChanged();
+                        graphyListView.scrollToPosition(0);
+                    });
+        });
+    }
+
     private void initEvents() {
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
-            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(userID, new ImgraphyType.ParcelableGraphy(graphy)));
+            navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(viewModel.userID.getValue(), new ImgraphyType.ParcelableGraphy(graphy)));
         });
     }
 }

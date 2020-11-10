@@ -11,9 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -60,8 +58,8 @@ public class ViewerFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         viewModel.userID.postValue(ViewerFragmentArgs.fromBundle(getArguments()).getUserID());
         viewModel.graphy.postValue(ViewerFragmentArgs.fromBundle(getArguments()).getParcelableGraphy().graphy);
@@ -92,6 +90,7 @@ public class ViewerFragment extends Fragment {
             Glide.with(root)
                     .load("https://api.novang.tk/imgraphy/files/img/" + graphy.uuid + "/" + graphy.uuid)
                     .placeholder(R.drawable.ic_image)
+                    .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .override(Target.SIZE_ORIGINAL)
                     .into(viewerImage);
