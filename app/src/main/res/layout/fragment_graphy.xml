@@ -15,14 +15,6 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <soup.neumorphism.NeumorphImageButton
-            android:id="@+id/GraphyListRefresh"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:src="@drawable/ic_find_replace"
-            style="@style/Neumorphism.ImageButton"/>
-
         <soup.neumorphism.NeumorphCardView
             android:layout_width="0dp"
             android:layout_height="match_parent"

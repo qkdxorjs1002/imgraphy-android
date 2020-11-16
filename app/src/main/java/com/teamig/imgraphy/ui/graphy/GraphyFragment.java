@@ -26,7 +26,6 @@ public class GraphyFragment extends Fragment {
     private View root;
     private NavController navController;
 
-    private ImageButton graphyListRefresh;
     private EditText graphySearchInput;
     private ImageButton graphyClearInput;
 
@@ -55,7 +54,6 @@ public class GraphyFragment extends Fragment {
     }
 
     private void initReferences() {
-        graphyListRefresh = (ImageButton) root.findViewById(R.id.GraphyListRefresh);
         graphySearchInput = (EditText) root.findViewById(R.id.GraphySearchInput);
         graphyClearInput = (ImageButton) root.findViewById(R.id.GraphyClearInput);
 
@@ -94,8 +92,6 @@ public class GraphyFragment extends Fragment {
             navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(viewModel.userID.getValue(), new ImgraphyType.ParcelableGraphy(graphy)));
         });
 
-        graphyListRefresh.setOnClickListener(v -> {
-            refreshList(new ImgraphyType.Options.List(50, 0, graphySearchInput.getText().toString()));
         graphySearchInput.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP
                     && ((EditText) v).getText().toString().length() >= 1) {
@@ -114,14 +110,7 @@ public class GraphyFragment extends Fragment {
 
         graphyClearInput.setOnClickListener(v -> {
             graphySearchInput.setText("");
-        });
-    }
-
-    private void refreshList(ImgraphyType.Options.List option) {
-        viewModel.getGraphy(option).observe(getViewLifecycleOwner(), graphy -> {
-            graphyListAdapter.updateList(graphy);
-            graphyListAdapter.notifyDataSetChanged();
-            graphyListView.scrollToPosition(0);
+            viewModel.keyword.postValue("");
         });
     }
 }
