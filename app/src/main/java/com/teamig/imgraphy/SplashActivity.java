@@ -1,7 +1,6 @@
 package com.teamig.imgraphy;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -56,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
 
             imgraphy.generateID(true).observe(this, result -> {
                 SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit();
+                userID = result.log;
 
                 editor.putString("userID", result.log);
                 editor.apply();
