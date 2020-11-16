@@ -1,63 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/neumorphism_padding"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="@dimen/neumorphism_corner_radius"
+    app:cardBackgroundColor="@color/neumorphism.ShadowLight"
+    app:cardElevation="0dp"
     android:focusable="true"
     android:clickable="true">
 
-    <!--TODO: Neumorphism Library Bug-->
-    <!--Soup's Neumorphism Library has performance issue with recycle view-->
-    <ImageView
-        android:id="@+id/ListItemImage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_image"
-        android:contentDescription="thumbnail"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/neumorphism_info_bar_size"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@id/ListItemImage">
-
+        <!--TODO: Neumorphism Library Bug-->
+        <!--Soup's Neumorphism Library has performance issue with recycle view-->
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_share" />
+            android:id="@+id/ListItemImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_image"
+            android:contentDescription="thumbnail"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/ListItemShareCount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/ui_count"
-            android:textColor="@color/neumorphism.Stroke"
-            android:textAppearance="@style/Font.Description"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/neumorphism_info_bar_size"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/ListItemImage">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="fitEnd"
-            android:src="@drawable/ic_like"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_share" />
 
-        <TextView
-            android:id="@+id/ListItemFavCount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/ui_count"
-            android:textColor="@color/neumorphism.Stroke"
-            android:textAppearance="@style/Font.Description"/>
+            <TextView
+                android:id="@+id/ListItemShareCount"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/ui_count"
+                android:textColor="@color/neumorphism.Stroke"
+                android:textAppearance="@style/Font.Description"/>
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_like"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/ListItemFavCount"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ui_count"
+                android:textColor="@color/neumorphism.Stroke"
+                android:textAppearance="@style/Font.Description"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
