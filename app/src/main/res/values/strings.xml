@@ -28,4 +28,5 @@
     <string name="ui_date_temp">2020-01-01 10:10</string>
     <string name="ui_account_my_graphy">내 게시물</string>
     <string name="ui_already_added_tag">이미 추가되어있는 태그입니다.</string>
+    <string name="ui_alert_add_tag_more">태그를 하나 이상 추가해주세요.</string>
 </resources>

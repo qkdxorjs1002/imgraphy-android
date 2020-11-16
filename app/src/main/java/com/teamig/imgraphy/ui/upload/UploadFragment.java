@@ -142,6 +142,11 @@ public class UploadFragment extends Fragment {
         });
 
         uploadFormButton.setOnClickListener(v -> {
+            if(viewModel.inputTagList.getValue().isEmpty()) {
+                Toast.makeText(this.getContext(), R.string.ui_alert_add_tag_more, Toast.LENGTH_SHORT).show();
+                return ;
+            }
+
             int indexOfRadio = uploadFormLicense.indexOfChild(root.findViewById(uploadFormLicense.getCheckedRadioButtonId()));
 
             viewModel.uploadFile(indexOfRadio)
