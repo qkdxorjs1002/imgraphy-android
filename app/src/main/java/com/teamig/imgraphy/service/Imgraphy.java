@@ -71,6 +71,24 @@ public class Imgraphy {
         return graphyList;
     }
 
+    public MutableLiveData<List<ImgraphyType.Graphy>> requestRecommendList(ImgraphyType.Options.List option) {
+        MutableLiveData<List<ImgraphyType.Graphy>> graphyList = new MutableLiveData<>();
+
+        Call<List<ImgraphyType.Graphy>> graphyCall = service.requestRecommendList(option.max, option.from);
+        graphyListEnqueue(graphyList, graphyCall);
+
+        return graphyList;
+    }
+
+    public MutableLiveData<List<ImgraphyType.Graphy>> requestLikedList(ImgraphyType.Options.List option) {
+        MutableLiveData<List<ImgraphyType.Graphy>> graphyList = new MutableLiveData<>();
+
+        Call<List<ImgraphyType.Graphy>> graphyCall = service.requestLikedList(option.max, option.from, option.userid);
+        graphyListEnqueue(graphyList, graphyCall);
+
+        return graphyList;
+    }
+
     public MutableLiveData<ImgraphyType.Result> uploadGraphy(ImgraphyType.Options.Upload option) {
         MutableLiveData<ImgraphyType.Result> result = new MutableLiveData<>();
 
