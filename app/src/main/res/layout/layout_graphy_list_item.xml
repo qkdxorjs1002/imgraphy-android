@@ -15,8 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!--TODO: Neumorphism Library Bug-->
-        <!--Soup's Neumorphism Library has performance issue with recycle view-->
         <ImageView
             android:id="@+id/ListItemImage"
             android:layout_width="match_parent"

@@ -187,7 +187,6 @@ tools:context=".ui.viewer.ViewerFragment">
             app:neumorph_backgroundColor="@color/neumorphism.Accent"
             app:layout_constraintTop_toBottomOf="@id/ViewerUserIdContainer"/>
 
-        <!--TODO: Add Like and share button with counting share-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
