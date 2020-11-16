@@ -1,6 +1,7 @@
 package com.teamig.imgraphy.ui.graphy;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,20 @@ public class GraphyFragment extends Fragment {
 
         graphyListRefresh.setOnClickListener(v -> {
             refreshList(new ImgraphyType.Options.List(50, 0, graphySearchInput.getText().toString()));
+        graphySearchInput.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP
+                    && ((EditText) v).getText().toString().length() >= 1) {
+
+                viewModel.keyword.postValue(((EditText) v).getText().toString());
+            }
+
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP
+                    && ((EditText) v).getText().toString().isEmpty()) {
+
+                viewModel.keyword.postValue("");
+            }
+
+            return false;
         });
 
         graphyClearInput.setOnClickListener(v -> {
