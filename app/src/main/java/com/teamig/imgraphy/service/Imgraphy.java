@@ -97,7 +97,47 @@ public class Imgraphy {
     public MutableLiveData<ImgraphyType.Result> voteGraphy(ImgraphyType.Options.Vote option) {
         MutableLiveData<ImgraphyType.Result> result = new MutableLiveData<>();
 
-        Call<ImgraphyType.Result> graphyCall = service.voteGraphy(option.uuid, option.column, option.type);
+        Call<ImgraphyType.Result> graphyCall = service.voteGraphy(option.uuid, option.userid, option.type);
+
+        graphyCall.enqueue(new Callback<ImgraphyType.Result>() {
+            @Override
+            public void onResponse(Call<ImgraphyType.Result> call, Response<ImgraphyType.Result> response) {
+                result.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ImgraphyType.Result> call, Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+        return result;
+    }
+
+    public MutableLiveData<ImgraphyType.Result> shareCount(String uuid) {
+        MutableLiveData<ImgraphyType.Result> result = new MutableLiveData<>();
+
+        Call<ImgraphyType.Result> graphyCall = service.shareCount(uuid);
+
+        graphyCall.enqueue(new Callback<ImgraphyType.Result>() {
+            @Override
+            public void onResponse(Call<ImgraphyType.Result> call, Response<ImgraphyType.Result> response) {
+                result.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ImgraphyType.Result> call, Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+        return result;
+    }
+
+    public MutableLiveData<ImgraphyType.Result> checkGraphyVote(ImgraphyType.Options.Vote option) {
+        MutableLiveData<ImgraphyType.Result> result = new MutableLiveData<>();
+
+        Call<ImgraphyType.Result> graphyCall = service.checkGraphyVote(option.uuid, option.userid);
 
         graphyCall.enqueue(new Callback<ImgraphyType.Result>() {
             @Override

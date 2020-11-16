@@ -33,10 +33,19 @@ public interface ImgraphyService {
     Call<ImgraphyType.Result> generateID(@Query("confirm") boolean confirm);
 
     @Headers({"Content-Type: application/json; charset=UTF-8"})
+    @GET("api/share.php")
+    Call<ImgraphyType.Result> shareCount(@Query("uuid") String uuid);
+
+    @Headers({"Content-Type: application/json; charset=UTF-8"})
     @GET("api/vote.php")
     Call<ImgraphyType.Result> voteGraphy(@Query("uuid") String uuid,
-                                         @Query("column") String column,
+                                         @Query("userid") String userid,
                                          @Query("type") String type);
+
+    @Headers({"Content-Type: application/json; charset=UTF-8"})
+    @GET("api/vote_check.php")
+    Call<ImgraphyType.Result> checkGraphyVote(@Query("uuid") String uuid,
+                                         @Query("userid") String userid);
 
     @Headers({"Content-Type: application/json; charset=UTF-8"})
     @GET("api/deprecate.php")

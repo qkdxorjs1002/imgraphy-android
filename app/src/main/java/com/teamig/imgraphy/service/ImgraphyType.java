@@ -143,13 +143,16 @@ public class ImgraphyType {
 
         public static class Vote {
 
-            public String uuid, column, type;
+            public static final String INCREMENT = "inc";
+            public static final String DECREMENT = "dec";
+
+            public String uuid, userid, type;
 
             public Vote() {}
 
-            public Vote(String uuid, String column, String type) {
+            public Vote(String uuid, String userid, String type) {
                 this.uuid = uuid;
-                this.column = column;
+                this.userid = userid;
                 this.type = type;
             }
         }
