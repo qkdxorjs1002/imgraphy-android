@@ -34,7 +34,7 @@ dependencies {
     def activity_version = "1.2.0-beta01"
     def fragment_version = "1.3.0-beta01"
     def appcompat_version = "1.3.0-alpha02"
-    def neumorphism_version = "0.2.2"
+    def neumorphism_version = "0.3.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
