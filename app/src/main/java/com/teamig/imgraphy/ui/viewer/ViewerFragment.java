@@ -117,8 +117,37 @@ public class ViewerFragment extends Fragment {
     }
 
     private void initEvents() {
-        tagListAdapter.setOnItemClickListener((v, s) -> {
-            viewModel.keyword.postValue(s);
+        viewerShareButton.setOnClickListener(v -> {
+            viewModel.shareCount();
+            Glide.with(root)
+                    .downloadOnly()
+                    .load(viewModel.graphyUrl.getValue())
+                    .into(new CustomTarget<File>() {
+                        @Override
+                        public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
+                            viewModel.copyCacheToFile(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), resource)
+                                    .observe(getViewLifecycleOwner(), uri -> {
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        intent.putExtra(Intent.EXTRA_STREAM, uri);
+                                        intent.setType("image/*");
+                                        startActivity(Intent.createChooser(intent, getString(R.string.ui_share)));
+                                    });
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) { }
+                    });
+        });
+
+        viewerFavButton.setOnClickListener(v -> {
+            ImgraphyType.Graphy graphy = viewModel.graphy.getValue();
+
+            viewModel.voteGraphy().observe(getViewLifecycleOwner(), result -> {
+                        Toast.makeText(this.getContext(), result.log, Toast.LENGTH_LONG).show();
+                        viewModel.checkVoteGraphy().observe(getViewLifecycleOwner(), resultc -> {
+                            viewModel.isVoted.postValue(Integer.parseInt(resultc.log) > 0);
+                        });
+                    });
         });
 
         viewerUserIdContainer.setOnClickListener(v -> {
@@ -144,5 +173,10 @@ public class ViewerFragment extends Fragment {
 
             builder.show();
         });
+
+        tagListAdapter.setOnItemClickListener((v, s) -> {
+            viewModel.keyword.postValue(s);
+        });
     }
+
 }
