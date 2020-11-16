@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.service.ImgraphyType;
+import com.teamig.imgraphy.tool.GlideApp;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class GraphyListAdapter extends RecyclerView.Adapter<GraphyListAdapter.Vi
 
         ImgraphyType.Graphy graphy = graphyList.get(position);
 
-        Glide.with(holder.view)
+        GlideApp.with(holder.view)
                 .load("https://api.novang.tk/imgraphy/files/thumb/" + graphy.uuid)
                 .placeholder(R.drawable.ic_image)
                 .skipMemoryCache(false)

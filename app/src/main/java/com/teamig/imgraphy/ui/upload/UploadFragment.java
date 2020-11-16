@@ -22,11 +22,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.adapter.TagListAdapter;
+import com.teamig.imgraphy.tool.GlideApp;
 import com.xiaofeng.flowlayoutmanager.Alignment;
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 
@@ -100,7 +100,7 @@ public class UploadFragment extends Fragment {
         });
 
         viewModel.fileByteData.observe(getViewLifecycleOwner(), bytes -> {
-            Glide.with(root)
+            GlideApp.with(root)
                     .load(bytes)
                     .placeholder(R.drawable.ic_image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

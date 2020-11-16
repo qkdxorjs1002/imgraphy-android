@@ -23,7 +23,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
@@ -31,6 +30,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.teamig.imgraphy.R;
 import com.teamig.imgraphy.adapter.TagListAdapter;
 import com.teamig.imgraphy.service.ImgraphyType;
+import com.teamig.imgraphy.tool.GlideApp;
 import com.teamig.imgraphy.ui.graphy.GraphyFragmentDirections;
 import com.xiaofeng.flowlayoutmanager.Alignment;
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
@@ -136,7 +136,7 @@ public class ViewerFragment extends Fragment {
         });
 
         viewModel.graphyUrl.observe(getViewLifecycleOwner(), s -> {
-            Glide.with(root)
+            GlideApp.with(root)
                     .load(s)
                     .placeholder(R.drawable.ic_image)
                     .skipMemoryCache(true)
@@ -161,7 +161,7 @@ public class ViewerFragment extends Fragment {
     private void initEvents() {
         viewerShareButton.setOnClickListener(v -> {
             viewModel.shareCount();
-            Glide.with(root)
+            GlideApp.with(root)
                     .downloadOnly()
                     .load(viewModel.graphyUrl.getValue())
                     .into(new CustomTarget<File>() {
