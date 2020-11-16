@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -54,8 +53,9 @@ public class AccountFragment extends Fragment {
 
     private void initReferences() {
         graphyListView = (RecyclerView) root.findViewById(R.id.GraphyListView);
-        graphyListAdapter = new GraphyListAdapter();
+        graphyListAdapter = new GraphyListAdapter(graphyListView);
         graphyListLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        graphyListLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
 
         graphyListView.setHasFixedSize(true);
         graphyListView.setAdapter(graphyListAdapter);
@@ -66,9 +66,7 @@ public class AccountFragment extends Fragment {
 
     private void initObservers() {
         viewModel.userID.observe(getViewLifecycleOwner(), s -> {
-            imgraphyUserId.setText(s);
-
-            viewModel.getGraphy(new ImgraphyType.Options.List(50, 0, s))
+            viewModel.getGraphy(new ImgraphyType.Options.List(30, 0, s))
                     .observe(getViewLifecycleOwner(), graphy -> {
                         graphyListAdapter.updateList(graphy);
                         graphyListAdapter.notifyDataSetChanged();
@@ -78,6 +76,14 @@ public class AccountFragment extends Fragment {
     }
 
     private void initEvents() {
+        graphyListAdapter.setOnScrollLastItemListener(adapter -> {
+            viewModel.getGraphy(new ImgraphyType.Options.List(30, adapter.getItemCount(), viewModel.userID.getValue()))
+                    .observe(getViewLifecycleOwner(), graphies -> {
+                        adapter.putList(graphies);
+                        adapter.setOnLoading(false);
+                    });
+        });
+
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
             navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(viewModel.userID.getValue(), new ImgraphyType.ParcelableGraphy(graphy)));
         });

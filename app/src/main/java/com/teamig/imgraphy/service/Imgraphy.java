@@ -37,7 +37,7 @@ public class Imgraphy {
     public MutableLiveData<List<ImgraphyType.Graphy>> requestList(ImgraphyType.Options.List option) {
         MutableLiveData<List<ImgraphyType.Graphy>> graphyList = new MutableLiveData<>();
 
-        Call<List<ImgraphyType.Graphy>> graphyCall = service.requestList(option.count_per_page, option.page, option.keyword);
+        Call<List<ImgraphyType.Graphy>> graphyCall = service.requestList(option.max, option.from, option.keyword);
 
         graphyCall.enqueue(new Callback<List<ImgraphyType.Graphy>>() {
             @Override

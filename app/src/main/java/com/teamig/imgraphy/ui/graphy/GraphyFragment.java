@@ -59,7 +59,7 @@ public class GraphyFragment extends Fragment {
         graphyClearInput = (ImageButton) root.findViewById(R.id.GraphyClearInput);
 
         graphyListView = (RecyclerView) root.findViewById(R.id.GraphyListView);
-        graphyListAdapter = new GraphyListAdapter();
+        graphyListAdapter = new GraphyListAdapter(graphyListView);
         graphyListLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         graphyListLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
 
@@ -71,11 +71,24 @@ public class GraphyFragment extends Fragment {
     private void initObservers() {
         viewModel.keyword.observe(getViewLifecycleOwner(), s -> {
             graphySearchInput.setText(s);
-            refreshList(new ImgraphyType.Options.List(50, 0, s));
+
+            viewModel.getGraphy(new ImgraphyType.Options.List(30, 0, s)).observe(getViewLifecycleOwner(), graphies -> {
+                graphyListAdapter.updateList(graphies);
+                graphyListAdapter.notifyDataSetChanged();
+                graphyListView.scrollToPosition(0);
+            });
         });
     }
 
     private void initEvents() {
+        graphyListAdapter.setOnScrollLastItemListener(adapter -> {
+            viewModel.getGraphy(new ImgraphyType.Options.List(30, adapter.getItemCount(), viewModel.keyword.getValue()))
+                    .observe(getViewLifecycleOwner(), graphies -> {
+                        adapter.putList(graphies);
+                        adapter.setOnLoading(false);
+                    });
+        });
+
         graphyListAdapter.setOnItemClickListener((v, graphy) -> {
             navController.navigate(ViewerFragmentDirections.actionGlobalNavigationViewer(viewModel.userID.getValue(), new ImgraphyType.ParcelableGraphy(graphy)));
         });

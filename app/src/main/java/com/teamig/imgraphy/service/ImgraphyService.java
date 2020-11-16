@@ -17,7 +17,7 @@ public interface ImgraphyService {
     @Headers({"Content-Type: application/json; charset=UTF-8"})
     @GET("api/list.php")
     Call<List<ImgraphyType.Graphy>> requestList(@Query("max") int max,
-                                                @Query("page") int page,
+                                                @Query("from") int from,
                                                 @Query("keyword") String keyword);
 
     @Headers({"Content-Type: charset=UTF-8"})
