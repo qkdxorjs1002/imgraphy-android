@@ -1,5 +1,7 @@
 # imgraphy-android
-## 태그 기반 이미지 공유 서비스 (안드로이드 클라이언트)
+### 태그 기반 이미지 공유 서비스 (안드로이드 클라이언트)
+
+<br />
 
 <img src="img/img1.jpg" width=300px> <img src="img/img2.jpg" width=300px>
 <img src="img/img3.jpg" width=300px> <img src="img/img4.jpg" width=300px>
