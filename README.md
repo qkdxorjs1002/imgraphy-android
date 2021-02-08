@@ -4,7 +4,10 @@
 <img src="img/img1.jpg" width=300px> <img src="img/img2.jpg" width=300px>
 <img src="img/img3.jpg" width=300px> <img src="img/img4.jpg" width=300px>
 
+<br />
+
 [![Build Status](https://travis-ci.com/qkdxorjs1002/imgraphy-android.svg?branch=main)](https://travis-ci.com/qkdxorjs1002/imgraphy-android)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ----------------------------------------
 
@@ -12,5 +15,6 @@
 - https://github.com/square/retrofit
 - https://github.com/fornewid/neumorphism
 - https://github.com/bumptech/glide
+- https://github.com/google/gson
 
 -----------------------------------------------
