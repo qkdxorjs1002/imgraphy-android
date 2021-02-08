@@ -5,6 +5,8 @@
 <img src="img/img1.png" width=300px><img src="img/img2.png" width=300px>
 <img src="img/img3.png" width=300px><img src="img/img4.png" width=300px>
 
+[![Build Status](https://travis-ci.com/qkdxorjs1002/imgraphy-android.svg?branch=main)](https://travis-ci.com/qkdxorjs1002/imgraphy-android)
+
 ----------------------------------------
 
 ### Library
