@@ -28,8 +28,8 @@ deploy:
   provider: releases
   token: "${github_oauth_token}"
   skip_cleanup: true
-  file: app/build/outputs/apk/release/app-release.apk
-  name: release build
+  file: app/build/outputs/apk/debug/app-debug.apk
+  name: debug build
   prerelease: false
   on:
     tags: true
